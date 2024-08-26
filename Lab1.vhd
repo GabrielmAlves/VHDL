@@ -13,23 +13,27 @@ end entity;
 
 architecture ALU of Lab1 is
   signal R_int: std_logic_vector(31 downto 0); -- Sinal interno para armazenar o resultado temporário
+  signal temp_result: unsigned(32 downto 0); -- Sinal para armazenar o resultado temporário com 33 bits
 begin
   process(A, B, ALUCtl)
   begin
+    -- Inicializa sinais de saída
+    Cout <= '0';
+    Overflow <= '0';
+    
     case ALUCtl is
       when "0000" =>
         R_int <= A AND B;
       when "0001" =>
         R_int <= A OR B;
       when "0010" => -- ADD operation
-        R_int <= std_logic_vector(signed(A) + signed(B));
-        Cout <= '0';
-        Overflow <= '0';
-        
-        -- Calculate Carry-Out (using explicit unsigned conversion)
-        --if unsigned(A) + unsigned(B) > to_unsigned(2**32 - 1, 32) then
-          --Cout <= '1';
-        --end if;
+        temp_result <= ("0" & unsigned(A)) + ("0" & unsigned(B)); -- Use 33 bits to handle carry-out
+        R_int <= std_logic_vector(temp_result(31 downto 0)); -- Assign lower 32 bits to R_int
+
+        -- Calculate Carry-Out
+        if temp_result(32) = '1' then
+          Cout <= '1';
+        end if;
 
         -- Calculate Overflow
         if (A(31) = B(31)) and (R_int(31) /= A(31)) then
