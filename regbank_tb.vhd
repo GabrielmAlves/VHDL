@@ -1,7 +1,7 @@
 -- Gabriel Morais Alves | RA: 20101838
 -- Lucas Vieira Brito | RA: 20118154
 -- Rafael Alves Dorta | RA: 20032256
--- Rafael Costa Nascimento | RA: 20012558
+-- Rafael Costa Nascimento | RA: 20015558
 
 
 library ieee;
@@ -29,6 +29,7 @@ component RegBank
 end component;
 
 -- sinais de teste
+
     signal clk: std_logic := '0';
     signal reset: std_logic := '0';
     signal rdAddr1: std_logic_vector(4 downto 0) := (others => '0');
@@ -41,8 +42,10 @@ end component;
 
 begin
 
+--mapeando as variáveis do componente com as variáveis de teste
+
 uut: RegBank
-port map ( --mapeando as variáveis do componente com as variáveis de teste
+port map ( 
     clk => clk,
     reset => reset,
     rdAddr1 => rdAddr1,
@@ -68,30 +71,30 @@ ciclo_clock: process -- período com 20 ns -> frequência de 50 mhz (convenção
         wait for 20 ns;
         reset <= '0';
 
-        -- teste de escrita no registrador 1
+        -- 1- teste de escrita no registrador 1
         we <= '1'; -- escrita tá habilitada
         wrAddr <= "00001";  -- endereço do registrador que vai escrever (1)
         wData <= x"00000012"; -- escreve o dado 00000012 (18)
         wait for 20 ns;
         we <= '0'; --depois de 20 ns, não dá mais pra escrever
 
-        -- teste de leitura do registrador 1
+        -- 2- teste de leitura do registrador 1
         rdAddr1 <= "00001"; -- vai ler o que tá nesse endereço (registrador 1)
         wait for 20 ns;
 
-        -- teste de escrita no registrador 2 (mesma coisa do de cima)
+        -- 3- teste de escrita no registrador 2 (mesma coisa do de cima)
         we <= '1';
         wrAddr <= "00010";  
         wData <= x"00000034"; 
         wait for 20 ns;
         we <= '0';
 
-        -- teste de leitura de novo (coloquei pra ter um específico pros dois juntos)
+        -- 4- teste de leitura de novo (coloquei pra ter um específico pros dois juntos)
         rdAddr1 <= "00001";
         rdAddr2 <= "00010";
         wait for 20 ns;
 
-        -- teste de reset (1 deixa os registradores zerados e 0 fica normal)
+        -- 5- teste de reset (1 deixa os registradores zerados e 0 fica normal)
         reset <= '1';
         wait for 20 ns;
         reset <= '0';
