@@ -29,7 +29,6 @@ component RegBank
 end component;
 
 -- sinais de teste
-
     signal clk: std_logic := '0';
     signal reset: std_logic := '0';
     signal rdAddr1: std_logic_vector(4 downto 0) := (others => '0');
@@ -42,10 +41,8 @@ end component;
 
 begin
 
---mapeando as variáveis do componente com as variáveis de teste
-
 uut: RegBank
-port map ( 
+port map ( --mapeando as variáveis do componente com as variáveis de teste
     clk => clk,
     reset => reset,
     rdAddr1 => rdAddr1,
@@ -71,30 +68,30 @@ ciclo_clock: process -- período com 20 ns -> frequência de 50 mhz (convenção
         wait for 20 ns;
         reset <= '0';
 
-        -- 1- teste de escrita no registrador 1
+        -- teste de escrita no registrador 1
         we <= '1'; -- escrita tá habilitada
         wrAddr <= "00001";  -- endereço do registrador que vai escrever (1)
         wData <= x"00000012"; -- escreve o dado 00000012 (18)
         wait for 20 ns;
         we <= '0'; --depois de 20 ns, não dá mais pra escrever
 
-        -- 2- teste de leitura do registrador 1
+        -- teste de leitura do registrador 1
         rdAddr1 <= "00001"; -- vai ler o que tá nesse endereço (registrador 1)
         wait for 20 ns;
 
-        -- 3- teste de escrita no registrador 2 (mesma coisa do de cima)
+        -- teste de escrita no registrador 2 (mesma coisa do de cima)
         we <= '1';
         wrAddr <= "00010";  
         wData <= x"00000034"; 
         wait for 20 ns;
         we <= '0';
 
-        -- 4- teste de leitura de novo (coloquei pra ter um específico pros dois juntos)
+        -- teste de leitura de novo (coloquei pra ter um específico pros dois juntos)
         rdAddr1 <= "00001";
         rdAddr2 <= "00010";
         wait for 20 ns;
 
-        -- 5- teste de reset (1 deixa os registradores zerados e 0 fica normal)
+        -- teste de reset (1 deixa os registradores zerados e 0 fica normal)
         reset <= '1';
         wait for 20 ns;
         reset <= '0';

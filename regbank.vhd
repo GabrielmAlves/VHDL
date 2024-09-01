@@ -12,15 +12,15 @@ use ieee.numeric_std.all;
 
 entity RegBank is
 	port (
-		clk: in std_logic; 									-- clock
-		reset: in std_logic; 								-- sinal de reset
-		rdAddr1: in std_logic_vector(4 downto 0); 	-- registrador lido pela porta de leitura 1
-		rdAddr2: in std_logic_vector(4 downto 0); 	-- registrador lido pela porta de leitura 2
-		wrAddr: in std_logic_vector(4 downto 0);  	-- número do registrador de escrita
-		wData: in std_logic_vector(31 downto 0);  	-- dado que vai ser escrito
-		we: in std_logic; 									-- habilita escrita
-		rdData1: out std_logic_vector(31 downto 0);	-- dado lido pela porta de leitura 1
-		rdData2: out std_logic_vector(31 downto 0) 	-- dado lido pela porta de leitura 2
+		clk: in std_logic; -- clock
+		reset: in std_logic; -- sinal de reset
+		rdAddr1: in std_logic_vector(4 downto 0); -- registrador lido pela porta de leitura 1
+		rdAddr2: in std_logic_vector(4 downto 0); -- registrador lido pela porta de leitura 2
+		wrAddr: in std_logic_vector(4 downto 0); -- número do registrador de escrita
+		wData: in std_logic_vector(31 downto 0); -- dado que vai ser escrito
+		we: in std_logic; -- habilita escrita
+		rdData1: out std_logic_vector(31 downto 0); -- dado lido pela porta de leitura 1
+		rdData2: out std_logic_vector(31 downto 0) -- dado lido pela porta de leitura 2
 	);
 end entity RegBank;
 
